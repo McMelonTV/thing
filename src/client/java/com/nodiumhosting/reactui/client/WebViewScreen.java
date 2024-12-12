@@ -1,11 +1,13 @@
 package com.nodiumhosting.reactui.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.*;
 import net.minecraft.text.Text;
 
 public class WebViewScreen extends Screen {
@@ -49,7 +51,17 @@ public class WebViewScreen extends Screen {
     }
 
     private void renderWebViewToOpenGL(DrawContext context) {
-        //somehow render
+        //select the current webview frame as a texture
+
+
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.BLIT_SCREEN);
+        bufferBuilder.vertex(0, 0, 0).texture(0, 0);
+        bufferBuilder.vertex(0, context.getScaledWindowHeight(), 0).texture(0, 1);
+        bufferBuilder.vertex(context.getScaledWindowWidth(), context.getScaledWindowHeight(), 0).texture(1, 1);
+        bufferBuilder.vertex(context.getScaledWindowWidth(), 0, 0).texture(1, 0);
+        BufferRenderer.draw(bufferBuilder.end());
     }
 
     @Override
