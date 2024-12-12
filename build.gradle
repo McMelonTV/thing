@@ -1,12 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.9-SNAPSHOT'
     id 'maven-publish'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
-}
-
-javafx {
-    version = "23.0.1"
-    modules = [ 'javafx.base', 'javafx.controls', 'javafx.web', 'javafx.graphics', 'javafx.media', 'javafx.swing' ]
 }
 
 version = project.mod_version
@@ -33,7 +27,9 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
-    mavenCentral()
+    maven {
+        url = uri('https://mcef-download.cinemamod.com/repositories/releases')
+    }
 }
 
 dependencies {
@@ -43,6 +39,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modCompileOnly 'com.cinemamod:mcef:2.1.6-1.21.1'
+    modRuntimeOnly 'com.cinemamod:mcef-fabric:2.1.6-1.21.1'
 }
 
 processResources {
